@@ -195,25 +195,6 @@ void    Fractale::pixelResUgly()
 
 
 
-
-int		Fractale::executeJulia(int x, int y)
-{
-    (void)x;
-    (void)y;
-    return -1;
-}
-
-int		Fractale::executeMandelbrot(int x, int y)
-{
-    (void)x;
-    (void)y;
-    return -1;
-}
-
-
-
-
-
 void     Fractale::injectPoint(int x, int y, double color_d)
 {
     int   minY = y * _settings._pixelRes;

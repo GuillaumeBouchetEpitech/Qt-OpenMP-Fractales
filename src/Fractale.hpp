@@ -71,9 +71,6 @@ public:
 	void    pixelResUgly();
 
 private:
-	int		executeJulia(int x, int y);
-	int		executeMandelbrot(int x, int y);
-
 	void	injectPoint(int x, int y, double color_d = 0);
 	void	Inject();
 };
