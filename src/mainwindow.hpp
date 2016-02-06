@@ -1,0 +1,81 @@
+
+#ifndef MAINWINDOW_HPP
+#define MAINWINDOW_HPP
+
+
+
+#include "Fractale.hpp"
+
+
+
+#include <QMainWindow>
+// #include <QMdiArea>
+
+#include <QVector2D>
+
+#include <QLabel>
+#include <QPushButton>
+
+
+class MainWindow : public QMainWindow
+{
+private:
+	Q_OBJECT
+
+private:
+//    QMdiArea*   _pQMdiArea;
+
+public:
+	explicit MainWindow(QWidget *parent = 0);
+	~MainWindow();
+
+private: // fractale
+
+	struct t_fractale_settings
+	{
+		double		_radius;
+		int			_iter, _mode;
+
+		int*		_buffer;
+		int			_index;
+
+		QVector2D	_Position, _Perturbation;
+		bool		IsJulia;
+		int			_size, _scale;
+	};
+
+	t_fractale_settings	_settings;
+
+    QLabel* _pLabel_refresh;
+
+    QPushButton*	_pQPushButton_refresh;
+
+    Fractale	_Fractale;
+	QImage*		_pImage;
+
+signals:
+
+public slots :
+	void	pushed_refresh();
+
+	void	pushed_up();
+	void	pushed_down();
+	void	pushed_left();
+	void	pushed_right();
+
+	void	pushed_zoom_in();
+	void	pushed_zoom_out();
+
+	void	pushed_perturbation_up();
+	void	pushed_perturbation_down();
+	void	pushed_perturbation_left();
+	void	pushed_perturbation_right();
+
+    void	pushed_pixelRes_normal();
+    void	pushed_pixelRes_low();
+    void	pushed_pixelRes_ugly();
+
+};
+
+
+#endif // MAINWINDOW_HPP
