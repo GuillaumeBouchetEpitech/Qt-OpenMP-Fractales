@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // }
 
     {
-        _pImage = new QImage(600, 600, QImage::Format_RGB32);
+        _pImage = new QImage(D_FRACTALE_SIZE, D_FRACTALE_SIZE, QImage::Format_RGB32);
 
         QWidget*        pMainWidget = new QWidget(this);
         QGridLayout*    pMainLayout = new QGridLayout(pMainWidget);
