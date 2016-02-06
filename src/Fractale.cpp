@@ -4,7 +4,9 @@
 
 #include <QImage>
 
-#define D_FRACTALE_SIZE 600
+#include <QTime>
+#include <iostream>
+
 #define D_BUFFER_SIZE D_FRACTALE_SIZE * D_FRACTALE_SIZE
 
 
@@ -12,8 +14,9 @@ Fractale::Fractale()
 {
     _settings._radius = 2;
     _settings._iter = 400;
-    _settings._Position = QVector2D(0, 0);
-    _settings._Perturbation = QVector2D(0, 0);
+
+    _settings._Position = t_vec2d(0,0);
+    _settings._Perturbation = t_vec2d(0,0);
 
     _settings._mode = 4;
 
@@ -36,10 +39,37 @@ void	Fractale::Julia(QImage& img)
 {
 	_pImage = &img;
 
+    double  inc = 2 * _settings._radius / _settings._size;
+
 	#pragma omp parallel for
 	for ( int y = 0; y < _settings._size; y++ )
 		for ( int x = 0; x < _settings._size; x++ )
-            _settings._buffer[y * _settings._size + x] = executeJulia(x,y);
+        {
+            t_vec2d   Z, Z2, P;
+
+            P.x = _settings._Position.y + _settings._radius - inc * y;
+            P.y = _settings._Position.x - _settings._radius + inc * x;
+
+            Z.x = P.x;
+            Z.y = P.y;
+            Z2.x = Z.x * Z.x;
+            Z2.y = Z.y * Z.y;
+
+            int   i = 1;
+
+            while ( ((Z2.x + Z2.y) < 4) && (i < _settings._iter) )
+            {
+                Z.y = 2 * Z.x * Z.y + _settings._Perturbation.y;
+                Z.x = Z2.x - Z2.y + _settings._Perturbation.x;
+
+                Z2.x = Z.x * Z.x;
+                Z2.y = Z.y * Z.y;
+
+                ++i;
+            }
+
+            _settings._buffer[y * _settings._size + x] = i;
+        }
 
     Inject();
 }
@@ -48,12 +78,49 @@ void	Fractale::Mandelbrot(QImage& img)
 {
 	_pImage = &img;
 
+    QTime  time_start = QTime::currentTime();
+
+    double  inc = 2 * _settings._radius / _settings._size;
+
 	#pragma omp parallel for
 	for ( int y = 0; y < _settings._size; y++ )
 		for ( int x = 0; x < _settings._size; x++ )
-            _settings._buffer[y * _settings._size + x] = executeMandelbrot(x,y);
+        {
+            t_vec2d   Z, Z2, P;
+
+            P.x = _settings._Position.y + _settings._radius - inc * y;
+            P.y = _settings._Position.x - _settings._radius + inc * x;
+
+            Z = _settings._Perturbation;
+            Z2.x = Z.x * Z.x;
+            Z2.y = Z.y * Z.y;
+
+            int i = 1;
+
+            while ( ((Z2.x + Z2.y) < 4) && (i < _settings._iter) )
+            {
+                Z.y = 2 * Z.x * Z.y + P.y;
+                Z.x = Z2.x - Z2.y + P.x;
+
+                Z2.x = Z.x * Z.x;
+                Z2.y = Z.y * Z.y;
+
+                ++i;
+            }
+
+            _settings._buffer[y * _settings._size + x] = i;
+        }
+
+    QTime  time_step = QTime::currentTime();
 
     Inject();
+
+    QTime  time_end = QTime::currentTime();
+
+    std::cout
+        << "fractal   = " << time_start.msecsTo(time_step) << std::endl
+        << "injection = " << time_step.msecsTo(time_end) << std::endl
+        ;
 }
 
 
@@ -63,19 +130,19 @@ void	Fractale::Mandelbrot(QImage& img)
 
 void	Fractale::moveUp()
 {
-	_settings._Position.setY( _settings._Position.y() + 0.02 * _settings._radius * 10);
+	_settings._Position.y = _settings._Position.y + 0.02 * _settings._radius * 10;
 }
 void	Fractale::moveDown()
 {
-	_settings._Position.setY( _settings._Position.y() - 0.02 * _settings._radius * 10);
+	_settings._Position.y = _settings._Position.y - 0.02 * _settings._radius * 10;
 }
 void	Fractale::moveLeft()
 {
-	_settings._Position.setX( _settings._Position.x() - 0.02 * _settings._radius * 10);
+	_settings._Position.x = _settings._Position.x - 0.02 * _settings._radius * 10;
 }
 void	Fractale::moveRight()
 {
-	_settings._Position.setX( _settings._Position.x() + 0.02 * _settings._radius * 10);
+	_settings._Position.x = _settings._Position.x + 0.02 * _settings._radius * 10;
 }
 
 void	Fractale::zoomIn()
@@ -91,19 +158,19 @@ void	Fractale::zoomOut()
 
 void	Fractale::perturbationUp()
 {
-	_settings._Perturbation.setY( _settings._Perturbation.y() + 0.1);
+	_settings._Perturbation.y = _settings._Perturbation.y + 0.1;
 }
 void	Fractale::perturbationDown()
 {
-	_settings._Perturbation.setY( _settings._Perturbation.y() - 0.1);
+	_settings._Perturbation.y = _settings._Perturbation.y - 0.1;
 }
 void	Fractale::perturbationLeft()
 {
-	_settings._Perturbation.setX( _settings._Perturbation.x() - 0.1);
+	_settings._Perturbation.x = _settings._Perturbation.x - 0.1;
 }
 void	Fractale::perturbationRight()
 {
-	_settings._Perturbation.setX( _settings._Perturbation.x() + 0.1);
+	_settings._Perturbation.x = _settings._Perturbation.x + 0.1;
 }
 
 
@@ -131,56 +198,16 @@ void    Fractale::pixelResUgly()
 
 int		Fractale::executeJulia(int x, int y)
 {
-    double          inc = 2 * _settings._radius / _settings._size;
-
-    QVector2D    Z, Z2, P;
-
-    P.setX(_settings._Position.y() + _settings._radius - inc * y);
-    P.setY(_settings._Position.x() - _settings._radius + inc * x);
-
-    int   i = 1;
-
-    Z = P;
-    Z2 = Z * Z;
-
-    while ( ((Z2.x() + Z2.y()) < 4) && (i < _settings._iter) )
-    {
-        Z.setY( 2 * Z.x() * Z.y() + _settings._Perturbation.y() );
-        Z.setX( Z2.x() - Z2.y() + _settings._Perturbation.x() );
-
-        Z2 = Z * Z;
-
-        ++i;
-    }
-
-    return i;
+    (void)x;
+    (void)y;
+    return -1;
 }
 
 int		Fractale::executeMandelbrot(int x, int y)
 {
-    double          inc = 2 * _settings._radius / _settings._size;
-
-    QVector2D    Z, Z2, P;
-
-    P.setX(_settings._Position.y() + _settings._radius - inc * y);
-    P.setY(_settings._Position.x() - _settings._radius + inc * x);
-
-    int   i = 1;
-
-    Z = _settings._Perturbation;
-    Z2 = Z * Z;
-
-    while ( ((Z2.x() + Z2.y()) < 4) && (i < _settings._iter) )
-    {
-        Z.setY( 2 * Z.x() * Z.y() + P.y() );
-        Z.setX( Z2.x() - Z2.y() + P.x() );
-
-        Z2 = Z * Z;
-
-        ++i;
-    }
-
-    return i;
+    (void)x;
+    (void)y;
+    return -1;
 }
 
 
