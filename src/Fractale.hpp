@@ -76,13 +76,4 @@ private:
 };
 
 
-
-////////////////////////////////////////////////////////////
-inline Fractale::t_vec2d operator *(const Fractale::t_vec2d& left, Fractale::t_vec2d right)
-{
-    return Fractale::t_vec2d(left.x * right.x, left.y * right.y);
-}
-
-
-
 #endif // FRACTALE_HPP
