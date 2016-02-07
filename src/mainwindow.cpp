@@ -15,9 +15,14 @@
 #include <QMenuBar>
 #include <QToolBar>
 
+#include <QShortcut>
+#include <QKeyEvent>
+
 // #include <QMdiSubWindow>
 
 #include <QGridLayout>
+
+
 
 
 
@@ -66,10 +71,15 @@ MainWindow::MainWindow(QWidget *parent) :
         //
 
         {
-            _pQPushButton_refresh = new QPushButton("refresh");
-            _pQPushButton_refresh->setShortcut(QKeySequence(Qt::Key_Tab));
-            pMainLayout->addWidget(_pQPushButton_refresh, 0,21);
-            connect(_pQPushButton_refresh, SIGNAL(clicked()), this, SLOT(pushed_refresh()));
+            // _pQPushButton_refresh = new QPushButton("refresh");
+            // _pQPushButton_refresh->setShortcut(QKeySequence(Qt::Key_Tab));
+            // pMainLayout->addWidget(_pQPushButton_refresh, 0,21);
+            // connect(_pQPushButton_refresh, SIGNAL(clicked()), this, SLOT(pushed_refresh()));
+
+            QPushButton* pQPushButton_reset = new QPushButton("reset");
+            pQPushButton_reset->setShortcut(QKeySequence(Qt::Key_Tab));
+            pMainLayout->addWidget(pQPushButton_reset, 0,21);
+            connect(pQPushButton_reset, SIGNAL(clicked()), this, SLOT(pushed_reset()));
         }
 
         //
@@ -80,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
             QLabel* pLabel = new QLabel("position");
             pLabel->setAlignment(Qt::AlignHCenter);
-            pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
+            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,3);
 
             QPushButton* pQPushButton_up = new QPushButton("up [W]");
@@ -112,7 +122,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
             QLabel* pLabel = new QLabel("zoom");
             pLabel->setAlignment(Qt::AlignHCenter);
-            pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
+            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,2);
 
             QPushButton* pQPushButton_up = new QPushButton("zoom in [+]");
@@ -134,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
             QLabel* pLabel = new QLabel("perturbation");
             pLabel->setAlignment(Qt::AlignHCenter);
-            pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
+            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,3);
 
             QPushButton* pQPushButton_up = new QPushButton("up");
@@ -166,7 +176,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
             QLabel* pLabel = new QLabel("pixel resolution");
             pLabel->setAlignment(Qt::AlignHCenter);
-            pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
+            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,3);
 
             QPushButton* pQPushButton_up = new QPushButton("normal [7]");
@@ -207,6 +217,14 @@ void    MainWindow::pushed_refresh()
     _pLabel_refresh->setPixmap( QPixmap::fromImage(*_pImage) );
 }
 
+void    MainWindow::pushed_reset()
+{
+    std::cout << "reset" << std::endl;
+
+    _Fractale.reset();
+
+    pushed_refresh();
+}
 
 
 void    MainWindow::pushed_up()

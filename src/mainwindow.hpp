@@ -53,10 +53,13 @@ private: // fractale
     Fractale	_Fractale;
 	QImage*		_pImage;
 
-signals:
+
+// signals:
 
 public slots :
 	void	pushed_refresh();
+
+	void	pushed_reset();
 
 	void	pushed_up();
 	void	pushed_down();

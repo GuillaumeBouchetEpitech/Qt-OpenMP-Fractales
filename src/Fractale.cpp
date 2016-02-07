@@ -10,30 +10,6 @@
 #define D_BUFFER_SIZE D_FRACTALE_SIZE * D_FRACTALE_SIZE
 
 
-Fractale::Fractale()
-{
-    _settings._radius = 2;
-    _settings._iter = 400;
-
-    _settings._Position = t_vec2d(0,0);
-    _settings._Perturbation = t_vec2d(0,0);
-
-    _settings._mode = 4;
-
-    _settings._pixelRes = 1;
-    _settings._size = D_FRACTALE_SIZE / _settings._pixelRes;
-    _settings._buffer = new int[ D_BUFFER_SIZE ];
-}
-
-Fractale::~Fractale()
-{
-	delete[] _settings._buffer;
-}
-
-
-
-
-
 
 void	Fractale::Julia(QImage& img)
 {
@@ -123,6 +99,39 @@ void	Fractale::Mandelbrot(QImage& img)
         ;
 }
 
+
+Fractale::t_fractale_settings::t_fractale_settings()
+    : _buffer(NULL)
+{
+    reset();
+}
+
+Fractale::t_fractale_settings::~t_fractale_settings()
+{
+    delete[] _buffer;
+}
+
+void    Fractale::t_fractale_settings::reset()
+{
+    _radius = 2;
+    _iter = 400;
+
+    _Position = t_vec2d(0,0);
+    _Perturbation = t_vec2d(0,0);
+
+    _mode = 4;
+
+    _pixelRes = 1;
+    _size = D_FRACTALE_SIZE / _pixelRes;
+    if (!_buffer)
+        _buffer = new int[ D_BUFFER_SIZE ];
+}
+
+
+void    Fractale::reset()
+{
+    _settings.reset();
+}
 
 
 

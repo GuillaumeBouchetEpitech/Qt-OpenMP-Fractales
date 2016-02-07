@@ -10,9 +10,9 @@
 
 class Fractale
 {
-public:
-	Fractale();
-	~Fractale();
+// public:
+// 	Fractale();
+// 	~Fractale();
 
 public:
 
@@ -46,12 +46,18 @@ private: // fractale
 
 		t_vec2d		_Position, _Perturbation;
 		int			_size, _pixelRes;
+
+		t_fractale_settings();
+		~t_fractale_settings();
+		void	reset();
 	};
 	t_fractale_settings	_settings;
 
 public:
 	void	Julia(QImage& img);
 	void	Mandelbrot(QImage& img);
+
+	void	reset();
 
 	void	moveUp();
 	void	moveDown();
