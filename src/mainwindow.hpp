@@ -16,6 +16,10 @@
 #include <QLabel>
 #include <QPushButton>
 
+#include <QTimer>
+
+#include <bitset>
+
 
 class MainWindow : public QMainWindow
 {
@@ -54,9 +58,42 @@ private: // fractale
 	QImage*		_pImage;
 
 
+private: // events
+
+	enum
+	{
+		eArrowUp = 0,
+		eArrowDown,
+		eArrowLeft,
+		eArrowRight,
+
+		eZoomIn,
+		eZoomOut,
+
+		ePerturbUp,
+		ePerturbDown,
+		ePerturbLeft,
+		ePerturbRight,
+
+		eCount
+	};
+
+	QTimer*				_pQTimer;
+	std::bitset<eCount>	_BSet_events;
+
+private:
+
+	void	keyPressEvent(QKeyEvent* keyEvent);
+	void	keyReleaseEvent(QKeyEvent* keyEvent);
+	void	managekeyEvent( QKeyEvent* keyEvent, bool pressed );
+
+
 // signals:
 
-public slots :
+public slots:
+
+	void 	slot_timeout();
+
 	void	pushed_refresh();
 
 	void	pushed_reset();
