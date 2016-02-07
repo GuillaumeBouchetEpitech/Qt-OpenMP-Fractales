@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
             // pMainLayout->addWidget(_pQPushButton_refresh, 0,21);
             // connect(_pQPushButton_refresh, SIGNAL(clicked()), this, SLOT(pushed_refresh()));
 
-            QPushButton* pQPushButton_reset = new QPushButton("reset");
+            QPushButton* pQPushButton_reset = new QPushButton("reset [Tab]");
             pQPushButton_reset->setShortcut(QKeySequence(Qt::Key_Tab));
             pMainLayout->addWidget(pQPushButton_reset, 0,21);
             connect(pQPushButton_reset, SIGNAL(clicked()), this, SLOT(pushed_reset()));
@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
             // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,3);
 
-            QPushButton* pQPushButton_up = new QPushButton("up [W]");
+            QPushButton* pQPushButton_up = new QPushButton("up [W/Z]");
             // pQPushButton_up->setShortcut(QKeySequence(Qt::Key_W));
             pLayout->addWidget( pQPushButton_up, 1,1);
             connect(pQPushButton_up, SIGNAL(clicked()), this, SLOT(pushed_up()));
@@ -103,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
             pLayout->addWidget( pQPushButton_down, 2,1);
             connect(pQPushButton_down, SIGNAL(clicked()), this, SLOT(pushed_down()));
 
-            QPushButton* pQPushButton_left = new QPushButton("left [A]");
+            QPushButton* pQPushButton_left = new QPushButton("left [A/Q]");
             // pQPushButton_left->setShortcut(QKeySequence(Qt::Key_A));
             pLayout->addWidget( pQPushButton_left, 2,0);
             connect(pQPushButton_left, SIGNAL(clicked()), this, SLOT(pushed_left()));
