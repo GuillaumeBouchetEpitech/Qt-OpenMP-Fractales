@@ -5,7 +5,10 @@
 #include <QImage>
 
 #include <QTime>
+#include <chrono>
+
 #include <iostream>
+#include <iomanip>
 
 #define D_BUFFER_SIZE D_FRACTALE_SIZE * D_FRACTALE_SIZE
 
@@ -15,87 +18,115 @@ void	Fractale::Julia(QImage& img)
 {
 	_pImage = &img;
 
-    double  inc = 2 * _settings._radius / _settings._size;
+    std::clock_t c_start = std::clock();
+    QTime  time_start = QTime::currentTime();
 
-	#pragma omp parallel for
-	for ( int y = 0; y < _settings._size; y++ )
-		for ( int x = 0; x < _settings._size; x++ )
-        {
-            t_vec2d   Z, Z2, P;
+    {
+        double  inc = 2 * _settings._radius / _settings._size;
 
-            P.x = _settings._Position.y + _settings._radius - inc * y;
-            P.y = _settings._Position.x - _settings._radius + inc * x;
-
-            Z.x = P.x;
-            Z.y = P.y;
-            Z2.x = Z.x * Z.x;
-            Z2.y = Z.y * Z.y;
-
-            int   i = 1;
-
-            while ( ((Z2.x + Z2.y) < 4) && (i < _settings._iter) )
+    	#pragma omp parallel for
+    	for ( int y = 0; y < _settings._size; ++y )
+    		for ( int x = 0; x < _settings._size; ++x )
             {
-                Z.y = 2 * Z.x * Z.y + _settings._Perturbation.y;
-                Z.x = Z2.x - Z2.y + _settings._Perturbation.x;
+                t_vec2d   Z, Z2, P;
 
+                P.x = _settings._Position.y + _settings._radius - inc * y;
+                P.y = _settings._Position.x - _settings._radius + inc * x;
+
+                Z.x = P.x;
+                Z.y = P.y;
                 Z2.x = Z.x * Z.x;
                 Z2.y = Z.y * Z.y;
 
-                ++i;
-            }
+                int   i = 1;
 
-            _settings._buffer[y * _settings._size + x] = i;
-        }
+                while ( ((Z2.x + Z2.y) < 4) && (i < _settings._iter) )
+                {
+                    Z.y = 2 * Z.x * Z.y + _settings._Perturbation.y;
+                    Z.x = Z2.x - Z2.y + _settings._Perturbation.x;
+
+                    Z2.x = Z.x * Z.x;
+                    Z2.y = Z.y * Z.y;
+
+                    ++i;
+                }
+
+                _settings._buffer[y * _settings._size + x] = i;
+            }
+    }
+
+    std::clock_t c_end = std::clock();
+    QTime  time_end = QTime::currentTime();
 
     Inject();
+
+    float elapsed = time_start.msecsTo(time_end);
+    float cputime = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
+
+    std::cout
+        << std::fixed
+        << std::setprecision(3)
+        << "elapsed = " << std::setw(10) << elapsed << " ms" << std::endl
+        << "cpu     = " << std::setw(10) << cputime << " ms" << std::endl
+        << "ratio   = " << std::setw(10) << cputime/elapsed << std::endl
+        ;
 }
 
 void	Fractale::Mandelbrot(QImage& img)
 {
 	_pImage = &img;
 
+    std::clock_t c_start = std::clock();
     QTime  time_start = QTime::currentTime();
 
-    double  inc = 2 * _settings._radius / _settings._size;
+    {
+        double  inc = 2 * _settings._radius / _settings._size;
 
-	#pragma omp parallel for
-	for ( int y = 0; y < _settings._size; y++ )
-		for ( int x = 0; x < _settings._size; x++ )
-        {
-            t_vec2d   Z, Z2, P;
-
-            P.x = _settings._Position.y + _settings._radius - inc * y;
-            P.y = _settings._Position.x - _settings._radius + inc * x;
-
-            Z = _settings._Perturbation;
-            Z2.x = Z.x * Z.x;
-            Z2.y = Z.y * Z.y;
-
-            int i = 1;
-
-            while ( ((Z2.x + Z2.y) < 4) && (i < _settings._iter) )
+        #pragma omp parallel for
+        for ( int y = 0; y < _settings._size; ++y )
+            for ( int x = 0; x < _settings._size; ++x )
             {
-                Z.y = 2 * Z.x * Z.y + P.y;
-                Z.x = Z2.x - Z2.y + P.x;
 
+                t_vec2d   Z, Z2, P;
+
+                P.x = _settings._Position.y + _settings._radius - inc * y;
+                P.y = _settings._Position.x - _settings._radius + inc * x;
+
+                Z = _settings._Perturbation;
                 Z2.x = Z.x * Z.x;
                 Z2.y = Z.y * Z.y;
 
-                ++i;
+                int i = 1;
+
+                while ( ((Z2.x + Z2.y) < 4) && (i < _settings._iter) )
+                {
+                    Z.y = 2 * Z.x * Z.y + P.y;
+                    Z.x = Z2.x - Z2.y + P.x;
+
+                    Z2.x = Z.x * Z.x;
+                    Z2.y = Z.y * Z.y;
+
+                    ++i;
+                }
+
+                _settings._buffer[y * _settings._size + x] = i;
             }
+    }
 
-            _settings._buffer[y * _settings._size + x] = i;
-        }
-
-    QTime  time_step = QTime::currentTime();
+    std::clock_t c_end = std::clock();
+    QTime  time_end = QTime::currentTime();
 
     Inject();
 
-    QTime  time_end = QTime::currentTime();
+    float elapsed = time_start.msecsTo(time_end);
+    float cputime = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
 
     std::cout
-        << "fractal   = " << time_start.msecsTo(time_step) << std::endl
-        << "injection = " << time_step.msecsTo(time_end) << std::endl
+        << std::fixed
+        << std::setprecision(3)
+        << "elapsed = " << std::setw(10) << elapsed << " ms" << std::endl
+        << "cpu     = " << std::setw(10) << cputime << " ms" << std::endl
+        << "ratio   = " << std::setw(10) << cputime/elapsed << std::endl
         ;
 }
 
