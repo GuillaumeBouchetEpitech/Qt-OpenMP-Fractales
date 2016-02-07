@@ -76,4 +76,7 @@ private:
 };
 
 
+#include "Fractale.inl"
+
+
 #endif // FRACTALE_HPP

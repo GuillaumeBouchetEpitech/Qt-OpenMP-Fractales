@@ -126,55 +126,6 @@ void	Fractale::Mandelbrot(QImage& img)
 
 
 
-
-
-void	Fractale::moveUp()
-{
-	_settings._Position.y = _settings._Position.y + 0.02 * _settings._radius * 10;
-}
-void	Fractale::moveDown()
-{
-	_settings._Position.y = _settings._Position.y - 0.02 * _settings._radius * 10;
-}
-void	Fractale::moveLeft()
-{
-	_settings._Position.x = _settings._Position.x - 0.02 * _settings._radius * 10;
-}
-void	Fractale::moveRight()
-{
-	_settings._Position.x = _settings._Position.x + 0.02 * _settings._radius * 10;
-}
-
-void	Fractale::zoomIn()
-{
-	_settings._radius -= 0.2 * _settings._radius;
-}
-void	Fractale::zoomOut()
-{
-	_settings._radius += 0.2 * _settings._radius;
-}
-
-
-
-void	Fractale::perturbationUp()
-{
-	_settings._Perturbation.y = _settings._Perturbation.y + 0.1;
-}
-void	Fractale::perturbationDown()
-{
-	_settings._Perturbation.y = _settings._Perturbation.y - 0.1;
-}
-void	Fractale::perturbationLeft()
-{
-	_settings._Perturbation.x = _settings._Perturbation.x - 0.1;
-}
-void	Fractale::perturbationRight()
-{
-	_settings._Perturbation.x = _settings._Perturbation.x + 0.1;
-}
-
-
-
 void    Fractale::pixelResNormal()
 {
     _settings._pixelRes = 1;
