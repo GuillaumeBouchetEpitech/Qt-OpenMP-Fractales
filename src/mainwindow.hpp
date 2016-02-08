@@ -88,6 +88,11 @@ private:
 	void	managekeyEvent( QKeyEvent* keyEvent, bool pressed );
 
 
+private:
+
+    void (Fractale::*_pt2Member)(QImage&);
+
+
 // signals:
 
 public slots:
@@ -95,8 +100,9 @@ public slots:
 	void 	slot_timeout();
 
 	void	pushed_refresh();
-
 	void	pushed_reset();
+	void    pushed_mandelbrot();
+	void    pushed_julia();
 
 	void	pushed_up();
 	void	pushed_down();

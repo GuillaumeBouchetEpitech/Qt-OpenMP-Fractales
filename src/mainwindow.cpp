@@ -33,7 +33,8 @@
 
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent),
+    _pt2Member(&Fractale::Julia)
 {
     this->setMinimumSize(800, 600);
 
@@ -76,10 +77,29 @@ MainWindow::MainWindow(QWidget *parent) :
             // pMainLayout->addWidget(_pQPushButton_refresh, 0,21);
             // connect(_pQPushButton_refresh, SIGNAL(clicked()), this, SLOT(pushed_refresh()));
 
+            QGridLayout*    pLayout = new QGridLayout();
+            pMainLayout->addLayout(pLayout, 0,21);
+
+
+            QLabel* pLabel = new QLabel("Settings");
+            pLabel->setAlignment(Qt::AlignHCenter);
+            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
+            pLayout->addWidget( pLabel, 0,0, 1,3);
+
             QPushButton* pQPushButton_reset = new QPushButton("reset [Tab]");
             pQPushButton_reset->setShortcut(QKeySequence(Qt::Key_Tab));
-            pMainLayout->addWidget(pQPushButton_reset, 0,21);
+            pLayout->addWidget( pQPushButton_reset, 1,0);
             connect(pQPushButton_reset, SIGNAL(clicked()), this, SLOT(pushed_reset()));
+
+            QPushButton* pQPushButton_mdlbrot = new QPushButton("Mandelbrot");
+            // pQPushButton_mdlbrot->setShortcut(QKeySequence(Qt::Key_Tab));
+            pLayout->addWidget( pQPushButton_mdlbrot, 1,1);
+            connect(pQPushButton_mdlbrot, SIGNAL(clicked()), this, SLOT(pushed_mandelbrot()));
+
+            QPushButton* pQPushButton_julia = new QPushButton("Julia");
+            // pQPushButton_julia->setShortcut(QKeySequence(Qt::Key_Tab));
+            pLayout->addWidget( pQPushButton_julia, 1,2);
+            connect(pQPushButton_julia, SIGNAL(clicked()), this, SLOT(pushed_julia()));
         }
 
         //
@@ -88,7 +108,7 @@ MainWindow::MainWindow(QWidget *parent) :
             QGridLayout*    pLayout = new QGridLayout();
             pMainLayout->addLayout(pLayout, 1,21);
 
-            QLabel* pLabel = new QLabel("position");
+            QLabel* pLabel = new QLabel("Movements");
             pLabel->setAlignment(Qt::AlignHCenter);
             // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,3);
@@ -120,7 +140,7 @@ MainWindow::MainWindow(QWidget *parent) :
             QGridLayout*    pLayout = new QGridLayout();
             pMainLayout->addLayout(pLayout, 2,21);
 
-            QLabel* pLabel = new QLabel("zoom");
+            QLabel* pLabel = new QLabel("Zoom");
             pLabel->setAlignment(Qt::AlignHCenter);
             // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,2);
@@ -142,7 +162,7 @@ MainWindow::MainWindow(QWidget *parent) :
             QGridLayout*    pLayout = new QGridLayout();
             pMainLayout->addLayout(pLayout, 3,21);
 
-            QLabel* pLabel = new QLabel("perturbation");
+            QLabel* pLabel = new QLabel("Perturbation");
             pLabel->setAlignment(Qt::AlignHCenter);
             // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,3);
@@ -174,7 +194,7 @@ MainWindow::MainWindow(QWidget *parent) :
             QGridLayout*    pLayout = new QGridLayout();
             pMainLayout->addLayout(pLayout, 4,21);
 
-            QLabel* pLabel = new QLabel("pixel resolution");
+            QLabel* pLabel = new QLabel("Pixel resolution");
             pLabel->setAlignment(Qt::AlignHCenter);
             // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
             pLayout->addWidget( pLabel, 0,0, 1,3);
@@ -206,8 +226,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     pushed_refresh();
-
-    this->setFocus();
 }
 
 MainWindow::~MainWindow()
@@ -302,13 +320,18 @@ void    MainWindow::slot_timeout()
 
 
 
+
+
 void    MainWindow::pushed_refresh()
 {
     std::cout << "refresh" << std::endl;
 
-    _Fractale.Mandelbrot( *_pImage );
-    // _Fractale.Julia( *_pImage );
+    // just wanted a method ptr to avoid a dirty if/else with an extra bool...
+    (_Fractale.*_pt2Member)( *_pImage );
+
     _pLabel_refresh->setPixmap( QPixmap::fromImage(*_pImage) );
+
+    this->setFocus(); // to make the arrows behave...
 }
 
 void    MainWindow::pushed_reset()
@@ -319,6 +342,26 @@ void    MainWindow::pushed_reset()
 
     pushed_refresh();
 }
+
+void    MainWindow::pushed_mandelbrot()
+{
+    std::cout << "mandelbrot" << std::endl;
+
+    _pt2Member = &Fractale::Mandelbrot;
+
+    pushed_refresh();
+}
+
+void    MainWindow::pushed_julia()
+{
+    std::cout << "julia" << std::endl;
+
+    _pt2Member = &Fractale::Julia;
+
+    pushed_refresh();
+}
+
+
 
 
 void    MainWindow::pushed_up()
