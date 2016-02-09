@@ -121,6 +121,11 @@ public slots:
     void	pushed_pixelRes_low();
     void	pushed_pixelRes_ugly();
 
+    void	pushed_mode_0();
+    void 	pushed_mode_1();
+    void 	pushed_mode_2();
+    void 	pushed_mode_3();
+    void 	pushed_mode_4();
 };
 
 

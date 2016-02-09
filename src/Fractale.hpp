@@ -76,6 +76,8 @@ public:
 	void    pixelResLow();
 	void    pixelResUgly();
 
+	void    injectionMode(int mode);
+
 private:
 	void	injectPoint(int x, int y, double color_d = 0);
 	void	Inject();

@@ -217,6 +217,50 @@ MainWindow::MainWindow(QWidget *parent) :
 
         //
 
+        {
+            QGridLayout*    pLayout = new QGridLayout();
+            pMainLayout->addLayout(pLayout, 5,21);
+
+            QLabel* pLabel = new QLabel("Injection mode");
+            pLabel->setAlignment(Qt::AlignHCenter);
+            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
+            pLayout->addWidget( pLabel, 0,0, 1,5);
+
+            int btt_width = 50;
+
+            QPushButton* pQPushButton_md0 = new QPushButton("[0]");
+            pQPushButton_md0->setShortcut(QKeySequence(Qt::Key_0));
+            pQPushButton_md0->setMaximumWidth(btt_width);
+            pLayout->addWidget( pQPushButton_md0, 1,0);
+            connect(pQPushButton_md0, SIGNAL(clicked()), this, SLOT(pushed_mode_0()));
+
+            QPushButton* pQPushButton_md1 = new QPushButton("[1]");
+            pQPushButton_md1->setShortcut(QKeySequence(Qt::Key_1));
+            pQPushButton_md1->setMaximumWidth(btt_width);
+            pLayout->addWidget( pQPushButton_md1, 1,1);
+            connect(pQPushButton_md1, SIGNAL(clicked()), this, SLOT(pushed_mode_1()));
+
+            QPushButton* pQPushButton_md2 = new QPushButton("[2]");
+            pQPushButton_md2->setShortcut(QKeySequence(Qt::Key_2));
+            pQPushButton_md2->setMaximumWidth(btt_width);
+            pLayout->addWidget( pQPushButton_md2, 1,2);
+            connect(pQPushButton_md2, SIGNAL(clicked()), this, SLOT(pushed_mode_2()));
+
+            QPushButton* pQPushButton_md3 = new QPushButton("[3]");
+            pQPushButton_md3->setShortcut(QKeySequence(Qt::Key_3));
+            pQPushButton_md3->setMaximumWidth(btt_width);
+            pLayout->addWidget( pQPushButton_md3, 1,3);
+            connect(pQPushButton_md3, SIGNAL(clicked()), this, SLOT(pushed_mode_3()));
+
+            QPushButton* pQPushButton_md4 = new QPushButton("[4]");
+            pQPushButton_md4->setShortcut(QKeySequence(Qt::Key_4));
+            pQPushButton_md4->setMaximumWidth(btt_width);
+            pLayout->addWidget( pQPushButton_md4, 1,4);
+            connect(pQPushButton_md4, SIGNAL(clicked()), this, SLOT(pushed_mode_4()));
+        }
+
+        //
+
         this->setCentralWidget( pMainWidget );
     }
 
@@ -363,7 +407,6 @@ void    MainWindow::pushed_julia()
 
 
 
-
 void    MainWindow::pushed_up()
 {
     std::cout << "up" << std::endl;
@@ -464,5 +507,43 @@ void    MainWindow::pushed_pixelRes_ugly()
 
     pushed_refresh();
 }
+
+void    MainWindow::pushed_mode_0()
+{
+    std::cout << "pushed_mode_1" << std::endl;
+    _Fractale.injectionMode(0);
+
+    pushed_refresh();
+}
+void    MainWindow::pushed_mode_1()
+{
+    std::cout << "pushed_mode_1" << std::endl;
+    _Fractale.injectionMode(1);
+
+    pushed_refresh();
+}
+void    MainWindow::pushed_mode_2()
+{
+    std::cout << "pushed_mode_2" << std::endl;
+    _Fractale.injectionMode(2);
+
+    pushed_refresh();
+}
+void    MainWindow::pushed_mode_3()
+{
+    std::cout << "pushed_mode_3" << std::endl;
+    _Fractale.injectionMode(3);
+
+    pushed_refresh();
+}
+void    MainWindow::pushed_mode_4()
+{
+    std::cout << "pushed_mode_4" << std::endl;
+    _Fractale.injectionMode(4);
+
+    pushed_refresh();
+}
+
+
 
 

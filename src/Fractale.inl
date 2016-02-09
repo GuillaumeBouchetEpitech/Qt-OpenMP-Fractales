@@ -50,3 +50,7 @@ inline void	Fractale::perturbationRight()
 }
 
 
+inline void	Fractale::injectionMode(int mode)
+{
+    _settings._mode = std::max(std::min(mode,4),0);
+}
