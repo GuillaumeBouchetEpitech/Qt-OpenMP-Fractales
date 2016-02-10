@@ -22,6 +22,7 @@
 
 #include <QGridLayout>
 
+#include <QGroupBox>
 
 
 
@@ -67,195 +68,164 @@ MainWindow::MainWindow(QWidget *parent) :
 
         _pLabel_refresh = new QLabel();
         _pLabel_refresh->setPixmap( QPixmap::fromImage(*_pImage) );
-        pMainLayout->addWidget( _pLabel_refresh, 0,0, 20,20 );
+        pMainLayout->addWidget( _pLabel_refresh, 0,0, 10,10 );
 
         //
 
         {
             // _pQPushButton_refresh = new QPushButton("refresh");
             // _pQPushButton_refresh->setShortcut(QKeySequence(Qt::Key_Tab));
-            // pMainLayout->addWidget(_pQPushButton_refresh, 0,21);
+            // pMainLayout->addWidget(_pQPushButton_refresh, 0,11);
             // connect(_pQPushButton_refresh, SIGNAL(clicked()), this, SLOT(pushed_refresh()));
 
+            QGroupBox*        pWidget = new QGroupBox(tr("Settings"));
+            pMainLayout->addWidget(pWidget, 0,11);
             QGridLayout*    pLayout = new QGridLayout();
-            pMainLayout->addLayout(pLayout, 0,21);
-
-
-            QLabel* pLabel = new QLabel("Settings");
-            pLabel->setAlignment(Qt::AlignHCenter);
-            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
-            pLayout->addWidget( pLabel, 0,0, 1,3);
+            pWidget->setLayout(pLayout);
 
             QPushButton* pQPushButton_reset = new QPushButton("reset [Tab]");
             pQPushButton_reset->setShortcut(QKeySequence(Qt::Key_Tab));
-            pLayout->addWidget( pQPushButton_reset, 1,0);
+            pLayout->addWidget( pQPushButton_reset, 0,0);
             connect(pQPushButton_reset, SIGNAL(clicked()), this, SLOT(pushed_reset()));
 
             QPushButton* pQPushButton_mdlbrot = new QPushButton("Mandelbrot");
-            // pQPushButton_mdlbrot->setShortcut(QKeySequence(Qt::Key_Tab));
-            pLayout->addWidget( pQPushButton_mdlbrot, 1,1);
+            pLayout->addWidget( pQPushButton_mdlbrot, 0,1);
             connect(pQPushButton_mdlbrot, SIGNAL(clicked()), this, SLOT(pushed_mandelbrot()));
 
             QPushButton* pQPushButton_julia = new QPushButton("Julia");
-            // pQPushButton_julia->setShortcut(QKeySequence(Qt::Key_Tab));
-            pLayout->addWidget( pQPushButton_julia, 1,2);
+            pLayout->addWidget( pQPushButton_julia, 0,2);
             connect(pQPushButton_julia, SIGNAL(clicked()), this, SLOT(pushed_julia()));
         }
 
         //
 
         {
+            QGroupBox*        pWidget = new QGroupBox(tr("Movements"));
+            pMainLayout->addWidget(pWidget, 1,11);
             QGridLayout*    pLayout = new QGridLayout();
-            pMainLayout->addLayout(pLayout, 1,21);
-
-            QLabel* pLabel = new QLabel("Movements");
-            pLabel->setAlignment(Qt::AlignHCenter);
-            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
-            pLayout->addWidget( pLabel, 0,0, 1,3);
+            pWidget->setLayout(pLayout);
 
             QPushButton* pQPushButton_up = new QPushButton("up [W/Z]");
-            // pQPushButton_up->setShortcut(QKeySequence(Qt::Key_W));
-            pLayout->addWidget( pQPushButton_up, 1,1);
+            pLayout->addWidget( pQPushButton_up, 0,1);
             connect(pQPushButton_up, SIGNAL(clicked()), this, SLOT(pushed_up()));
 
             QPushButton* pQPushButton_down = new QPushButton("down [S]");
-            // pQPushButton_down->setShortcut(QKeySequence(Qt::Key_S));
-            pLayout->addWidget( pQPushButton_down, 2,1);
+            pLayout->addWidget( pQPushButton_down, 1,1);
             connect(pQPushButton_down, SIGNAL(clicked()), this, SLOT(pushed_down()));
 
             QPushButton* pQPushButton_left = new QPushButton("left [A/Q]");
-            // pQPushButton_left->setShortcut(QKeySequence(Qt::Key_A));
-            pLayout->addWidget( pQPushButton_left, 2,0);
+            pLayout->addWidget( pQPushButton_left, 1,0);
             connect(pQPushButton_left, SIGNAL(clicked()), this, SLOT(pushed_left()));
 
             QPushButton* pQPushButton_right = new QPushButton("right [D]");
-            // pQPushButton_right->setShortcut(QKeySequence(Qt::Key_D));
-            pLayout->addWidget( pQPushButton_right, 2,2);
+            pLayout->addWidget( pQPushButton_right, 1,2);
             connect(pQPushButton_right, SIGNAL(clicked()), this, SLOT(pushed_right()));
         }
 
         //
 
         {
+            QGroupBox*        pWidget = new QGroupBox(tr("Zoom"));
+            pMainLayout->addWidget(pWidget, 2,11);
             QGridLayout*    pLayout = new QGridLayout();
-            pMainLayout->addLayout(pLayout, 2,21);
-
-            QLabel* pLabel = new QLabel("Zoom");
-            pLabel->setAlignment(Qt::AlignHCenter);
-            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
-            pLayout->addWidget( pLabel, 0,0, 1,2);
+            pWidget->setLayout(pLayout);
 
             QPushButton* pQPushButton_up = new QPushButton("zoom in [+]");
-            // pQPushButton_up->setShortcut(QKeySequence(Qt::Key_Plus));
-            pLayout->addWidget( pQPushButton_up, 1,0);
+            pLayout->addWidget( pQPushButton_up, 0,0);
             connect(pQPushButton_up, SIGNAL(clicked()), this, SLOT(pushed_zoom_in()));
 
             QPushButton* pQPushButton_down = new QPushButton("zoom out [-]");
-            // pQPushButton_down->setShortcut(QKeySequence(Qt::Key_Minus));
-            pLayout->addWidget( pQPushButton_down, 1,1);
+            pLayout->addWidget( pQPushButton_down, 0,1);
             connect(pQPushButton_down, SIGNAL(clicked()), this, SLOT(pushed_zoom_out()));
         }
 
         //
 
         {
+            QGroupBox*        pWidget = new QGroupBox(tr("Perturbation"));
+            pMainLayout->addWidget(pWidget, 3,11);
             QGridLayout*    pLayout = new QGridLayout();
-            pMainLayout->addLayout(pLayout, 3,21);
-
-            QLabel* pLabel = new QLabel("Perturbation");
-            pLabel->setAlignment(Qt::AlignHCenter);
-            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
-            pLayout->addWidget( pLabel, 0,0, 1,3);
+            pWidget->setLayout(pLayout);
 
             QPushButton* pQPushButton_up = new QPushButton("up");
-            // pQPushButton_up->setShortcut(QKeySequence(Qt::Key_Up));
-            pLayout->addWidget( pQPushButton_up, 1,1);
+            pLayout->addWidget( pQPushButton_up, 0,1);
             connect(pQPushButton_up, SIGNAL(clicked()), this, SLOT(pushed_perturbation_up()));
 
             QPushButton* pQPushButton_down = new QPushButton("down");
-            // pQPushButton_down->setShortcut(QKeySequence(Qt::Key_Down));
-            pLayout->addWidget( pQPushButton_down, 2,1);
+            pLayout->addWidget( pQPushButton_down, 1,1);
             connect(pQPushButton_down, SIGNAL(clicked()), this, SLOT(pushed_perturbation_down()));
 
             QPushButton* pQPushButton_left = new QPushButton("left");
-            // pQPushButton_left->setShortcut(QKeySequence(Qt::Key_Left));
-            pLayout->addWidget( pQPushButton_left, 2,0);
+            pLayout->addWidget( pQPushButton_left, 1,0);
             connect(pQPushButton_left, SIGNAL(clicked()), this, SLOT(pushed_perturbation_left()));
 
             QPushButton* pQPushButton_right = new QPushButton("right");
-            // pQPushButton_right->setShortcut(QKeySequence(Qt::Key_Right));
-            pLayout->addWidget( pQPushButton_right, 2,2);
+            pLayout->addWidget( pQPushButton_right, 1,2);
             connect(pQPushButton_right, SIGNAL(clicked()), this, SLOT(pushed_perturbation_right()));
         }
 
         //
 
         {
+            QGroupBox*        pWidget = new QGroupBox(tr("Pixel resolution"));
+            pMainLayout->addWidget(pWidget, 4,11);
             QGridLayout*    pLayout = new QGridLayout();
-            pMainLayout->addLayout(pLayout, 4,21);
-
-            QLabel* pLabel = new QLabel("Pixel resolution");
-            pLabel->setAlignment(Qt::AlignHCenter);
-            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
-            pLayout->addWidget( pLabel, 0,0, 1,3);
+            pWidget->setLayout(pLayout);
 
             QPushButton* pQPushButton_up = new QPushButton("normal [7]");
             pQPushButton_up->setShortcut(QKeySequence(Qt::Key_7));
-            pLayout->addWidget( pQPushButton_up, 1,0);
+            pLayout->addWidget( pQPushButton_up, 0,0);
             connect(pQPushButton_up, SIGNAL(clicked()), this, SLOT(pushed_pixelRes_normal()));
 
             QPushButton* pQPushButton_down = new QPushButton("low [8]");
             pQPushButton_down->setShortcut(QKeySequence(Qt::Key_8));
-            pLayout->addWidget( pQPushButton_down, 1,1);
+            pLayout->addWidget( pQPushButton_down, 0,1);
             connect(pQPushButton_down, SIGNAL(clicked()), this, SLOT(pushed_pixelRes_low()));
 
             QPushButton* pQPushButton_left = new QPushButton("ugly [9]");
             pQPushButton_left->setShortcut(QKeySequence(Qt::Key_9));
-            pLayout->addWidget( pQPushButton_left, 1,2);
+            pLayout->addWidget( pQPushButton_left, 0,2);
             connect(pQPushButton_left, SIGNAL(clicked()), this, SLOT(pushed_pixelRes_ugly()));
         }
 
         //
 
         {
+            QGroupBox*        pWidget = new QGroupBox(tr("Injection mode"));
+            pMainLayout->addWidget(pWidget, 5,11);
             QGridLayout*    pLayout = new QGridLayout();
-            pMainLayout->addLayout(pLayout, 5,21);
-
-            QLabel* pLabel = new QLabel("Injection mode");
-            pLabel->setAlignment(Qt::AlignHCenter);
-            // pLabel->setStyleSheet("QLabel { background-color : red; color : blue; }");
-            pLayout->addWidget( pLabel, 0,0, 1,5);
+            pWidget->setLayout(pLayout);
 
             int btt_width = 50;
 
             QPushButton* pQPushButton_md0 = new QPushButton("[0]");
             pQPushButton_md0->setShortcut(QKeySequence(Qt::Key_0));
             pQPushButton_md0->setMaximumWidth(btt_width);
-            pLayout->addWidget( pQPushButton_md0, 1,0);
+            pLayout->addWidget( pQPushButton_md0, 0,0);
             connect(pQPushButton_md0, SIGNAL(clicked()), this, SLOT(pushed_mode_0()));
 
             QPushButton* pQPushButton_md1 = new QPushButton("[1]");
             pQPushButton_md1->setShortcut(QKeySequence(Qt::Key_1));
             pQPushButton_md1->setMaximumWidth(btt_width);
-            pLayout->addWidget( pQPushButton_md1, 1,1);
+            pLayout->addWidget( pQPushButton_md1, 0,1);
             connect(pQPushButton_md1, SIGNAL(clicked()), this, SLOT(pushed_mode_1()));
 
             QPushButton* pQPushButton_md2 = new QPushButton("[2]");
             pQPushButton_md2->setShortcut(QKeySequence(Qt::Key_2));
             pQPushButton_md2->setMaximumWidth(btt_width);
-            pLayout->addWidget( pQPushButton_md2, 1,2);
+            pLayout->addWidget( pQPushButton_md2, 0,2);
             connect(pQPushButton_md2, SIGNAL(clicked()), this, SLOT(pushed_mode_2()));
 
             QPushButton* pQPushButton_md3 = new QPushButton("[3]");
             pQPushButton_md3->setShortcut(QKeySequence(Qt::Key_3));
             pQPushButton_md3->setMaximumWidth(btt_width);
-            pLayout->addWidget( pQPushButton_md3, 1,3);
+            pLayout->addWidget( pQPushButton_md3, 0,3);
             connect(pQPushButton_md3, SIGNAL(clicked()), this, SLOT(pushed_mode_3()));
 
             QPushButton* pQPushButton_md4 = new QPushButton("[4]");
             pQPushButton_md4->setShortcut(QKeySequence(Qt::Key_4));
             pQPushButton_md4->setMaximumWidth(btt_width);
-            pLayout->addWidget( pQPushButton_md4, 1,4);
+            pLayout->addWidget( pQPushButton_md4, 0,4);
             connect(pQPushButton_md4, SIGNAL(clicked()), this, SLOT(pushed_mode_4()));
         }
 
