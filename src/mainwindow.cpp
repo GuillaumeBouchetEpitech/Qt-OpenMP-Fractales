@@ -259,16 +259,16 @@ MainWindow::~MainWindow()
 // 2- the frame loop is started if needed (key pressed)
 // 3- the frame loop process the keys pressed and refresh
 
-void    MainWindow::keyPressEvent(QKeyEvent* keyEvent)
+void MainWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
     managekeyEvent( keyEvent, true );
 }
-void    MainWindow::keyReleaseEvent(QKeyEvent* keyEvent)
+void MainWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
     managekeyEvent( keyEvent, false );
 }
 
-void    MainWindow::managekeyEvent( QKeyEvent* keyEvent, bool pressed )
+void MainWindow::managekeyEvent( QKeyEvent* keyEvent, bool pressed )
 {
 
     // 1- the user press/release a recognisaned key
@@ -306,7 +306,7 @@ void    MainWindow::managekeyEvent( QKeyEvent* keyEvent, bool pressed )
         _pQTimer->stop();
 }
 
-void    MainWindow::slot_timeout()
+void MainWindow::slot_timeout()
 {
     // 3- the frame loop process the keys pressed and refresh
 
@@ -336,9 +336,9 @@ void    MainWindow::slot_timeout()
 
 
 
-void    MainWindow::pushed_refresh()
+void MainWindow::pushed_refresh()
 {
-    std::cout << "refresh" << std::endl;
+    // std::cout << "refresh" << std::endl;
 
     // just wanted a method ptr to avoid a dirty if/else with an extra bool...
     (_Fractale.*_pt2Member)( *_pImage );
@@ -348,27 +348,27 @@ void    MainWindow::pushed_refresh()
     this->setFocus(); // to make the arrows behave...
 }
 
-void    MainWindow::pushed_reset()
+void MainWindow::pushed_reset()
 {
-    std::cout << "reset" << std::endl;
+    // std::cout << "reset" << std::endl;
 
     _Fractale.reset();
 
     pushed_refresh();
 }
 
-void    MainWindow::pushed_mandelbrot()
+void MainWindow::pushed_mandelbrot()
 {
-    std::cout << "mandelbrot" << std::endl;
+    // std::cout << "mandelbrot" << std::endl;
 
     _pt2Member = &Fractale::Mandelbrot;
 
     pushed_refresh();
 }
 
-void    MainWindow::pushed_julia()
+void MainWindow::pushed_julia()
 {
-    std::cout << "julia" << std::endl;
+    // std::cout << "julia" << std::endl;
 
     _pt2Member = &Fractale::Julia;
 
@@ -377,30 +377,30 @@ void    MainWindow::pushed_julia()
 
 
 
-void    MainWindow::pushed_up()
+void MainWindow::pushed_up()
 {
-    std::cout << "up" << std::endl;
+    // std::cout << "up" << std::endl;
     _Fractale.moveUp();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_down()
+void MainWindow::pushed_down()
 {
-    std::cout << "down" << std::endl;
+    // std::cout << "down" << std::endl;
     _Fractale.moveDown();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_left()
+void MainWindow::pushed_left()
 {
-    std::cout << "left" << std::endl;
+    // std::cout << "left" << std::endl;
     _Fractale.moveLeft();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_right()
+void MainWindow::pushed_right()
 {
-    std::cout << "right" << std::endl;
+    // std::cout << "right" << std::endl;
     _Fractale.moveRight();
 
     pushed_refresh();
@@ -408,16 +408,16 @@ void    MainWindow::pushed_right()
 
 
 
-void    MainWindow::pushed_zoom_in()
+void MainWindow::pushed_zoom_in()
 {
-    std::cout << "zoom_in" << std::endl;
+    // std::cout << "zoom_in" << std::endl;
     _Fractale.zoomIn();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_zoom_out()
+void MainWindow::pushed_zoom_out()
 {
-    std::cout << "zoom_out" << std::endl;
+    // std::cout << "zoom_out" << std::endl;
     _Fractale.zoomOut();
 
     pushed_refresh();
@@ -425,30 +425,30 @@ void    MainWindow::pushed_zoom_out()
 
 
 
-void    MainWindow::pushed_perturbation_up()
+void MainWindow::pushed_perturbation_up()
 {
-    std::cout << "perturbation_up" << std::endl;
+    // std::cout << "perturbation_up" << std::endl;
     _Fractale.perturbationUp();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_perturbation_down()
+void MainWindow::pushed_perturbation_down()
 {
-    std::cout << "perturbation_down" << std::endl;
+    // std::cout << "perturbation_down" << std::endl;
     _Fractale.perturbationDown();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_perturbation_left()
+void MainWindow::pushed_perturbation_left()
 {
-    std::cout << "perturbation_left" << std::endl;
+    // std::cout << "perturbation_left" << std::endl;
     _Fractale.perturbationLeft();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_perturbation_right()
+void MainWindow::pushed_perturbation_right()
 {
-    std::cout << "perturbation_right" << std::endl;
+    // std::cout << "perturbation_right" << std::endl;
     _Fractale.perturbationRight();
 
     pushed_refresh();
@@ -456,59 +456,59 @@ void    MainWindow::pushed_perturbation_right()
 
 
 
-void    MainWindow::pushed_pixelRes_normal()
+void MainWindow::pushed_pixelRes_normal()
 {
-    std::cout << "pixelRes_normal" << std::endl;
+    // std::cout << "pixelRes_normal" << std::endl;
     _Fractale.pixelResNormal();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_pixelRes_low()
+void MainWindow::pushed_pixelRes_low()
 {
-    std::cout << "pixelRes_low" << std::endl;
+    // std::cout << "pixelRes_low" << std::endl;
     _Fractale.pixelResLow();
 
     pushed_refresh();
 }
-void    MainWindow::pushed_pixelRes_ugly()
+void MainWindow::pushed_pixelRes_ugly()
 {
-    std::cout << "pixelRes_ugly" << std::endl;
+    // std::cout << "pixelRes_ugly" << std::endl;
     _Fractale.pixelResUgly();
 
     pushed_refresh();
 }
 
-void    MainWindow::pushed_mode_0()
+void MainWindow::pushed_mode_0()
 {
-    std::cout << "pushed_mode_1" << std::endl;
+    // std::cout << "pushed_mode_1" << std::endl;
     _Fractale.injectionMode(0);
 
     pushed_refresh();
 }
-void    MainWindow::pushed_mode_1()
+void MainWindow::pushed_mode_1()
 {
-    std::cout << "pushed_mode_1" << std::endl;
+    // std::cout << "pushed_mode_1" << std::endl;
     _Fractale.injectionMode(1);
 
     pushed_refresh();
 }
-void    MainWindow::pushed_mode_2()
+void MainWindow::pushed_mode_2()
 {
-    std::cout << "pushed_mode_2" << std::endl;
+    // std::cout << "pushed_mode_2" << std::endl;
     _Fractale.injectionMode(2);
 
     pushed_refresh();
 }
-void    MainWindow::pushed_mode_3()
+void MainWindow::pushed_mode_3()
 {
-    std::cout << "pushed_mode_3" << std::endl;
+    // std::cout << "pushed_mode_3" << std::endl;
     _Fractale.injectionMode(3);
 
     pushed_refresh();
 }
-void    MainWindow::pushed_mode_4()
+void MainWindow::pushed_mode_4()
 {
-    std::cout << "pushed_mode_4" << std::endl;
+    // std::cout << "pushed_mode_4" << std::endl;
     _Fractale.injectionMode(4);
 
     pushed_refresh();

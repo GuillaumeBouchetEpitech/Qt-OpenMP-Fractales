@@ -1,15 +1,15 @@
 
 QT       += core gui
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++17
 
 
-CONFIG += debug
-
+# CONFIG += debug
+CONFIG += release
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = exec
+TARGET = ./bin/exec
 TEMPLATE = app
 
 OBJECTS_DIR = ./obj
@@ -17,18 +17,16 @@ MOC_DIR = ./obj
 
 ###
 
-SOURCES +=          	\
-    src/main.cpp    	\
-    src/mainwindow.cpp	\
-    src/Fractale.cpp	\
-    src/helpers/HelperOpenMP.cpp
+SOURCES +=              \
+    src/main.cpp        \
+    src/mainwindow.cpp  \
+    src/Fractale.cpp
 
 ###
 
-HEADERS  += \
-    src/mainwindow.hpp	\
-    src/Fractale.hpp	\
-    src/helpers/HelperOpenMP.hpp
+HEADERS += \
+    src/mainwindow.hpp  \
+    src/Fractale.hpp
 
 ###
 

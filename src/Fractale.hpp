@@ -1,90 +1,77 @@
-#ifndef FRACTALE_HPP
-#define FRACTALE_HPP
+#pragma once
 
-
-#include <QVector2D>
-
+// #include <QVector2D>
+#include <QImage>
 
 #define D_FRACTALE_SIZE 600
 
-
 class Fractale
 {
-// public:
-// 	Fractale();
-// 	~Fractale();
-
 public:
 
-	//
-	// -> this is 5 time faster than a using a QVector2D...
+    //
+    // -> this is 5 time faster than a using a QVector2D...
     struct t_vec2d
     {
-        double x,y;
+        double x, y;
 
-		t_vec2d()
-		{}
+        t_vec2d() = default;
 
-		t_vec2d(int X, int Y)
-		: x(X), y(Y)
-		{}
+        t_vec2d(int X, int Y)
+            : x(X)
+            , y(Y)
+        {}
     };
-	// -> this is 5 time faster than a using a QVector2D...
-	//
+    // -> this is 5 time faster than a using a QVector2D...
+    //
 
 private: // fractale
 
-	QImage*	_pImage;
+    QImage*	_pImage;
 
-	struct	t_fractale_settings
-	{
-		double		_radius;
-		int			_iter, _mode;
+    struct	t_fractale_settings
+    {
+        double  _radius;
+        int     _iter, _mode;
 
-		int*		_buffer;
-		int			_index;
+        int*    _buffer;
+        int     _index;
 
-		t_vec2d		_Position, _Perturbation;
-		int			_size, _pixelRes;
+        t_vec2d _Position, _Perturbation;
+        int     _size, _pixelRes;
 
-		t_fractale_settings();
-		~t_fractale_settings();
-		void	reset();
-	};
-	t_fractale_settings	_settings;
+        t_fractale_settings();
+        ~t_fractale_settings();
+        void reset();
+    }
+    _settings;
 
 public:
-	void	Julia(QImage& img);
-	void	Mandelbrot(QImage& img);
+    void Julia(QImage& img);
+    void Mandelbrot(QImage& img);
 
-	void	reset();
+    void reset();
 
-	void	moveUp();
-	void	moveDown();
-	void	moveLeft();
-	void	moveRight();
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
 
-	void	zoomIn();
-	void	zoomOut();
+    void zoomIn();
+    void zoomOut();
 
-	void	perturbationUp();
-	void	perturbationDown();
-	void	perturbationLeft();
-	void	perturbationRight();
+    void perturbationUp();
+    void perturbationDown();
+    void perturbationLeft();
+    void perturbationRight();
 
-	void    pixelResNormal();
-	void    pixelResLow();
-	void    pixelResUgly();
+    void pixelResNormal();
+    void pixelResLow();
+    void pixelResUgly();
 
-	void    injectionMode(int mode);
+    void injectionMode(int mode);
 
 private:
-	void	injectPoint(int x, int y, double color_d = 0);
-	void	Inject();
+    void injectPoint(int x, int y, double color_d = 0);
+    void Inject();
 };
-
-
-#include "Fractale.inl"
-
-
-#endif // FRACTALE_HPP
